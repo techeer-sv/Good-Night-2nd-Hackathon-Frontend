@@ -11,6 +11,10 @@ export default function RegistPage() {
   const genres = ['스릴러', '로맨스', '코믹', '액션'];
 
   const registMovie = async () => {
+    if (!genre || !openDate || !finDate || !title) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
     const formatOpenDate = new Date(openDate).toISOString(); // Convert to ISO 8601 format
     const formatFinDate = new Date(finDate).toISOString();
     const data = {
