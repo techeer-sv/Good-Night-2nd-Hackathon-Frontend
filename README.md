@@ -76,3 +76,8 @@
 - [이수현](https://github.com/suhyeon0921)
 - [정태원](https://github.com/teawon)
 - [백한결](https://github.com/baekhangyeol)
+
+---
+
+# 기능 구현
+![스크린샷 2023-08-28 오전 3 04 44](https://github.com/0BVer/Good-Night-2nd-Hackathon-Frontend/assets/73998876/9025880b-b3bd-4265-b561-62a781f99e92)
