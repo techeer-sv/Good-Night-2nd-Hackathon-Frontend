@@ -1,6 +1,7 @@
 import { MovieType } from "./enum";
 
-export interface MovieDropDown {
-  label: string;
-  value: MovieType;
-}
+export type MovieAddInputs = {
+  genre: MovieType;
+  startAt: Date;
+  endAt: Date;
+};
