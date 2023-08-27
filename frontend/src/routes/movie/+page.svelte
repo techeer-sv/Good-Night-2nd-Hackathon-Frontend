@@ -28,6 +28,7 @@
 <main>
     <h1>Seyeoncinema Movie List</h1>
     <MovieList {movies} />
+    <br />
     <button on:click={toggleMovieAdd}>영화 추가</button>
     {#if showMovieAdd}
         <MovieAdd />
