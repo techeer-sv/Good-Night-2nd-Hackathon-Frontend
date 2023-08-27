@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useFindAllMovies } from "../../api/hook/MovieHook";
 import { MovieService } from "../../api/service/MovieService";
 import SearchNotFoundSection from "./SearchNotFoundSection";
+import LoadingSection from "./LoadingSection";
 
 function MovieListSection() {
   const router = useRouter();
@@ -10,7 +11,7 @@ function MovieListSection() {
   const { data: movies, refetch: refetchMovie, isLoading } = useFindAllMovies();
 
   if (!movies || isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSection />;
   } else if (movies.data === null) {
     return <SearchNotFoundSection />;
   }

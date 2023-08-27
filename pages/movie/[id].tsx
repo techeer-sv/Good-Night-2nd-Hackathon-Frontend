@@ -11,6 +11,8 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { useAddReview, useFindAllReviews } from "../../src/api/hook/ReviewHook";
+import NotFoundErrorSection from "../../src/components/Section/NotFoundErrorSection";
+import LoadingSection from "../../src/components/Section/LoadingSection";
 
 function MovieDetailPage() {
   const items = [
@@ -70,8 +72,12 @@ function MovieDetailPage() {
     addReview();
   };
 
-  if (!movie || !reviews || isLoading || !id) {
-    return <div>Loading...</div>;
+  if (isLoading || !id) {
+    return <LoadingSection />;
+  }
+
+  if (!movie || !reviews) {
+    return <NotFoundErrorSection />;
   }
 
   return (
