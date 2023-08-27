@@ -12,7 +12,6 @@ export default function DropDownBtn({ items, setting }: DropDownBtnProps) {
           key={index}
           onClick={() => {
             setting(item);
-            // console.log(item);
           }}
         >
           {item}

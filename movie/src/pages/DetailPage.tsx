@@ -33,7 +33,7 @@ export default function DetailPage() {
 
   const getMovies = async () => {
     const response = await baseInstance.get(`/movies/${id}`);
-    console.log(response.data);
+
     setMovie(response.data);
   };
 
@@ -41,7 +41,7 @@ export default function DetailPage() {
     const response = await baseInstance.get('/reviews', {
       params: { movieId: id },
     });
-    console.log(response.data);
+
     setReviews(response.data);
   };
 
@@ -51,7 +51,7 @@ export default function DetailPage() {
   }, [reviews]);
 
   const handleStarHover = (value: number) => {
-    setRating(value); // 마우스를 올린 위치까지 별점 증가
+    setRating(value);
   };
 
   const registReview = async () => {
@@ -62,14 +62,9 @@ export default function DetailPage() {
     };
     const response = await baseInstance.post('/reviews', data);
     if (response.status === 201) {
-      console.log('review fin');
-      // Update the reviews state with the new review
       setReviews([...reviews, response.data]);
     }
   };
-
-  console.log(review);
-  console.log(rating);
 
   const isAdmin = localStorage.getItem('admin') === 'true';
 

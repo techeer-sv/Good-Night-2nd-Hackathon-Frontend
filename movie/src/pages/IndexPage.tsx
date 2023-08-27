@@ -36,7 +36,7 @@ export default function IndexPage() {
     const response = await baseInstance.get<Movie[]>('/movies', {
       params: { genre, isShowing: isShowingParam },
     });
-    console.log(response.data);
+
     setMovies(response.data);
   };
 
@@ -106,9 +106,7 @@ export default function IndexPage() {
             <div
               key={index}
               className={`my-4 p-4 border rounded cursor-pointer hover:bg-gray-300 ${
-                isAdmin
-                  ? 'text-white'
-                  : '' /* Step 2: Apply the class conditionally */
+                isAdmin ? 'text-white' : ''
               }`}
               onClick={() => {
                 navigate(`/detail/${item.id}`);

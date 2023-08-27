@@ -21,7 +21,7 @@ export default function ModifyPage() {
       alert('모든 필드를 입력해주세요.');
       return;
     }
-    const formatOpenDate = new Date(openDate).toISOString(); // Convert to ISO 8601 format
+    const formatOpenDate = new Date(openDate).toISOString();
     const formatFinDate = new Date(finDate).toISOString();
     const data = {
       endAt: formatFinDate,
@@ -31,12 +31,10 @@ export default function ModifyPage() {
     };
     const response = await baseInstance.put(`/movies/${movie.id}`, data);
     if (response.status === 200) {
-      console.log('modify fin');
       navigate('/');
     } else console.log('error');
   };
 
-  console.log(genre + openDate + finDate + title);
   return (
     <div className='p-6'>
       <div className='mb-4'>

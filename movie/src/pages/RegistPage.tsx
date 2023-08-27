@@ -17,7 +17,7 @@ export default function RegistPage() {
       alert('모든 필드를 입력해주세요.');
       return;
     }
-    const formatOpenDate = new Date(openDate).toISOString(); // Convert to ISO 8601 format
+    const formatOpenDate = new Date(openDate).toISOString();
     const formatFinDate = new Date(finDate).toISOString();
     const data = {
       endAt: formatFinDate,
@@ -27,12 +27,10 @@ export default function RegistPage() {
     };
     const response = await baseInstance.post('/movies', data);
     if (response.status === 201) {
-      console.log('regist fin');
       navigate('/');
     } else console.log('error');
   };
 
-  console.log(genre + openDate + finDate + title);
   return (
     <div className='p-6'>
       <div className='mb-4'>
@@ -42,25 +40,27 @@ export default function RegistPage() {
             setView(!view);
           }}
         >
-          <button className='border p-1'>장르 {view ? '▲' : '▼'}</button>
+          <button className='border p-1 text-white'>
+            장르 {view ? '▲' : '▼'}
+          </button>
         </label>
         {view && <DropDownBtn items={genres} setting={setGenre} />}
       </div>
-      <div className='mb-2'>개봉일</div>
+      <div className='mb-2 text-white'>개봉일</div>
       <input
         type='date'
         className='border p-1'
         value={openDate}
         onChange={(e) => setOpenDate(e.target.value)}
       />
-      <div className='mb-2'>상영 종료일</div>
+      <div className='mb-2 text-white'>상영 종료일</div>
       <input
         type='date'
         className='border p-1'
         value={finDate}
         onChange={(e) => setFinDate(e.target.value)}
       />
-      <div className='mb-2'>제목</div>
+      <div className='mb-2 text-white'>제목</div>
       <input
         className='border p-1'
         value={title}
