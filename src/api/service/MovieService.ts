@@ -34,8 +34,18 @@ export class MovieService {
     await api.delete(`/movies/${id}`);
   };
 
-  public static getAllMovies = async () => {
-    return api.get("/movies");
+  public static getAllMovies = async (options: {
+    genre?: string;
+    isShowing?: boolean;
+  }) => {
+    return api.get(
+      "/movies?" +
+        (options?.genre ? `genre=${options?.genre}` : "") +
+        (options?.genre && options?.isShowing ? "&" : "") +
+        (options?.isShowing
+          ? `isShowing=${options?.isShowing === true ? "1" : "0"}`
+          : "")
+    );
   };
 
   public static getMovieById = async (id: number) => {

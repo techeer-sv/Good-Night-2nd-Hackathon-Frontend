@@ -1,7 +1,12 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { Button } from "@nextui-org/react";
 
-function SearchNotFoundSection() {
+interface Props {
+  onClick: () => void;
+}
+
+function SearchNotFoundSection({ onClick }: Props) {
   const router = useRouter();
 
   return (
@@ -20,6 +25,7 @@ function SearchNotFoundSection() {
         >
           내가 찾는 영화가 없다면 등록해주세요!
         </nav>
+        <Button onClick={onClick}>필터 초기화하기</Button>
       </div>
     </>
   );

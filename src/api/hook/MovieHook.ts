@@ -22,9 +22,13 @@ export const useAddMovie = (
   });
 };
 
-export const useFindAllMovies = () => {
+export const useFindAllMovies = (options: {
+  genre?: string;
+  isShowing?: boolean;
+}) => {
   return useQuery({
-    queryFn: () => MovieService.getAllMovies(),
+    queryFn: () => MovieService.getAllMovies(options),
+    queryKey: ["movies", options],
   });
 };
 
