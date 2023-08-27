@@ -42,6 +42,11 @@
         showReviewAdd = !showReviewAdd;
     }
 
+    function formatDate(isoString) {
+        const date = new Date(isoString);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+
 </script>
 <style>
     .review-grid {
@@ -67,13 +72,14 @@
         <h4>장르</h4>
         <span>{movie.genre}</span>
         <h4>상영 시작일</h4>
-        <span>{movie.release_date}</span>
+        <span>{formatDate(movie.release_date)}</span>
         <h4>상영 종료일</h4>
-        <span>{movie.end_date}</span>
+        <span>{formatDate(movie.end_date)}</span>
     </li>
 </ul>
 
 <button on:click={toggleReviewAdd}>{movie.title}의 리뷰 추가</button>
+
 {#if showReviewAdd}
     <ReviewAdd movieId={data.id} />
 {/if}
