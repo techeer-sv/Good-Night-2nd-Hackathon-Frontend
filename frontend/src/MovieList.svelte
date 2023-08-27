@@ -32,13 +32,36 @@
 <style>
     .movie-container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 16px;
     }
     .movie-item {
         padding: 16px;
         border: 1px solid #ccc;
         text-align: center;
+    }
+    .movie-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+
+     .movie-container {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         gap: 16px;
+     }
+
+    .movie-actions button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .movie-actions button:hover {
+        background-color: #f2f2f2;
     }
 </style>
 
