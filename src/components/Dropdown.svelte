@@ -4,7 +4,7 @@
     
     const dispatch = createEventDispatcher();
   
-    let genres = ['스릴러', '로맨스', '코믹', '액션'];
+    let genres = ['THRILLER', 'ROMANCE', 'COMIC', 'ACTION'];
     let isOpen = false;
   
     export let selectedGenre = '';

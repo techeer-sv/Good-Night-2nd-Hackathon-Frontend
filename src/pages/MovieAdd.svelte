@@ -1,19 +1,37 @@
 <script>
   import Dropdown from '../components/Dropdown.svelte';
   import { DateInput } from 'date-picker-svelte'
-
+  import { callApi } from "../services/api.js";
   let startDate = new Date()
   let endDate = new Date()
+  let movieTitle = '';
   let selectedGenre = '';
   function handleGenreSelect(genre) {
       selectedGenre = genre;
           // 필요한 로직 추가 (예: 선택한 장르에 따라 영화 목록 필터링)
   }   
-
+  function addMovie() {
+    const movie = {
+      title: movieTitle,  // movieTitle 변수를 사용
+      genre: selectedGenre,
+      releaseDate: startDate.toISOString(),  // startDate 변수를 사용
+      endDate: endDate.toISOString(),  // endDate 변수를 사용
+      isShowing: true,
+      isDeleted: false
+    };
+    callApi('POST', '/movies', movie)
+    .then(res => {
+      console.log("성공!");
+    })
+    .catch(err => {
+      console.log(err);
+      console.log(movie);
+    });
+}
 </script>
 <div class ="movie-title">
   <h1>영화 추가</h1>
-  <input type="text" placeholder="영화 제목을 입력하세요.">
+  <input type="text" bind:value={movieTitle} placeholder="영화 제목을 입력하세요.">
 
 </div>
 
@@ -26,12 +44,12 @@
 
 <div id="datepicker">
   <div id="startdate">
-    <DateInput bind:value={startDate} format={"yyyy-MM-dd"}/>
-    <p>상영시작 날짜 : {startDate.toLocaleDateString()}</p>
+    <DateInput bind:value={startDate} format={"yyyy-MM-dd HH:mm:ss"}/>
+    <p class="start">상영시작 날짜 : {startDate.toString()}</p>
   </div>
   <div id="enddate">
-    <DateInput bind:value={endDate} format={"yyyy-MM-dd"}/>
-    <p>상영종료 날짜 : {endDate.toLocaleDateString()}</p>
+    <DateInput bind:value={endDate} format={"yyyy-MM-dd HH:mm:ss"}/>
+    <p class="end">상영종료 날짜 : {endDate.toString()}</p>
   </div>
 </div>
 
@@ -39,12 +57,7 @@
   <!--API호출 함수 추가-->
   <button 
     class = "submit-button"
-    on:click={()=>{
-    console.log("영화 제목 : ", document.querySelector("input").value);
-    console.log("장르 : ", selectedGenre);
-    console.log("상영시작 날짜 : ", startDate.toLocaleDateString());
-    console.log("상영종료 날짜 : ", endDate.toLocaleDateString());
-  }}>영화 추가</button>
+    on:click={()=>addMovie()}>영화 추가</button>
 </div>
 <style>
   .submit-button {

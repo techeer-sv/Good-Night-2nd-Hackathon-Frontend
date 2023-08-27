@@ -4,6 +4,10 @@ let initialMovies = []
 
 const moviesStore = writable(initialMovies);
 
+// 영화 목록
+function getMovies() {
+	return moviesStore;
+}
 // 영화 추가
 function addMovie(movie){
 	moviesStore.update(movies => {
@@ -25,9 +29,5 @@ function deleteMovie(movieId) {
 	});
 }
 
-export default {
-	subscribe: moviesStore.subscribe,
-	addMovie,
-	editMovie,
-	deleteMovie
-};
+export default moviesStore;
+export {getMovies, addMovie, editMovie, deleteMovie};
