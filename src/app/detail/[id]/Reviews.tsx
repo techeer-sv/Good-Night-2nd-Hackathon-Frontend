@@ -29,13 +29,15 @@ export default function Reviews({ movieId }: ReviewProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [rating, setRating] = useState<number>(1);
   const [content, setContent] = useState<string>("");
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleMinRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMinRating(Number(e.target.value));
   };
 
   async function getReviews() {
-    const reviewsUrl = new URL(`http://localhost:8000/reviews/${movieId}`);
+    const reviewsUrl = new URL(`${baseURL}/${movieId}`);
     const reviewsParams = new URLSearchParams();
     reviewsParams.append("minRating", minRating.toString());
 
@@ -59,7 +61,7 @@ export default function Reviews({ movieId }: ReviewProps) {
   };
 
   const handleSubmit = async () => {
-    const url = `http://localhost:8000/reviews/${movieId}`;
+    const url = `${baseURL}/reviews/${movieId}`;
     const data = {
       rating,
       content,
@@ -86,6 +88,10 @@ export default function Reviews({ movieId }: ReviewProps) {
     getReviews();
   }, [minRating]);
 
+  useEffect(() => {
+    localStorage.getItem("isAdmin") ? setIsAdmin(true) : setIsAdmin(false);
+  }, []);
+
   return (
     <div>
       <input
@@ -105,30 +111,36 @@ export default function Reviews({ movieId }: ReviewProps) {
           <div>내용 : {review.content}</div>
         </div>
       ))}
-      <div className="flex flex-col mt-2">
-        <input
-          className="w-[200px] mt-2"
-          type="range"
-          id="range"
-          name="rating"
-          min="1"
-          max="5"
-          step="0.5"
-          value={rating}
-          onChange={handleRatingChange}
-        />
-        {rating}
-        <textarea
-          className="mx-2 w-[200px] h-[100px] resize-none mt-2"
-          name="content"
-          placeholder="리뷰내용"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <button className="w-[200px] mt-2" type="submit" onClick={handleSubmit}>
-          리뷰 작성
-        </button>
-      </div>
+      {isAdmin ? null : (
+        <div className="flex flex-col mt-2">
+          <input
+            className="w-[200px] mt-2"
+            type="range"
+            id="range"
+            name="rating"
+            min="1"
+            max="5"
+            step="0.5"
+            value={rating}
+            onChange={handleRatingChange}
+          />
+          {rating}
+          <textarea
+            className="mx-2 w-[200px] h-[100px] resize-none mt-2"
+            name="content"
+            placeholder="리뷰내용"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <button
+            className="w-[200px] mt-2"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            리뷰 작성
+          </button>
+        </div>
+      )}
     </div>
   );
 }

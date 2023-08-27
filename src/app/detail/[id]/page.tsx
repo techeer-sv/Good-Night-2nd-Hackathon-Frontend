@@ -7,7 +7,8 @@ import Reviews from "./Reviews";
 
 export default async function Detail({ params }: DetailProps) {
   let error = false;
-  const movieUrl = `http://localhost:8000/movies/${params.id}`;
+  const BaseURL = process.env.API_BASE_URL;
+  const movieUrl = `${BaseURL}/movies/${params.id}`;
 
   const movieDataRes = await fetch(movieUrl, {
     cache: "no-store",

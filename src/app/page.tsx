@@ -27,9 +27,12 @@ export default function Home() {
   const [data, setData] = useState<Data>({ movies: [], total: 0 });
   const [minRating, setMinRating] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   async function getMovies() {
-    const genreIsShowingurl = new URL("http://localhost:8000/movies");
+    const genreIsShowingurl = new URL(`${baseURL}/movies`);
     const params = new URLSearchParams();
 
     if (genre) {
@@ -60,7 +63,7 @@ export default function Home() {
   }
 
   async function deleteMovie(id: number) {
-    const url = `http://localhost:8000/movies/${id}`;
+    const url = `${baseURL}/movies/${id}`;
     try {
       const response = await fetch(url, {
         method: "DELETE",
@@ -92,6 +95,10 @@ export default function Home() {
     getMovies();
   }, [genre, isShowing, page]);
 
+  useEffect(() => {
+    localStorage.getItem("isAdmin") ? setIsAdmin(true) : setIsAdmin(false);
+  }, []);
+
   return (
     <div>
       <div>
@@ -119,7 +126,7 @@ export default function Home() {
           onChange={handleMinRatingChange}
         />
         <span>{minRating}</span>
-        <Link href="/submit">추가하기</Link>
+        {isAdmin ? <Link href="/submit">추가하기</Link> : null}
       </div>
       {data.movies.map((movie) =>
         movie.averageRating >= minRating ? (
@@ -131,10 +138,14 @@ export default function Home() {
               <div>상영종료일 : {movie.endDate}</div>
               <div>상영여부 : {movie.isShowing ? "상영중" : "상영중지"}</div>
             </Link>
-            <Link href={`/modify/${movie.id}`}>수정</Link>
-            <button type="button" onClick={() => deleteMovie(movie.id)}>
-              삭제
-            </button>
+            {isAdmin ? (
+              <div className="flex ml-2 gap-2">
+                <Link href={`/modify/${movie.id}`}>수정</Link>
+                <button type="button" onClick={() => deleteMovie(movie.id)}>
+                  삭제
+                </button>
+              </div>
+            ) : null}
           </div>
         ) : null
       )}

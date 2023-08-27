@@ -34,6 +34,7 @@ export default function Submit({ params }: SubmitProps) {
   const [releaseDate, setReleaseDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [isShowing, setIsShowing] = useState<boolean>(false);
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const router = useRouter();
 
@@ -47,7 +48,7 @@ export default function Submit({ params }: SubmitProps) {
   });
 
   async function getMovie() {
-    const url = `http://localhost:8000/movies/${params.id}`;
+    const url = `${baseURL}/movies/${params.id}`;
     try {
       const dataRes = await fetch(url);
       if (!dataRes.ok) {
@@ -66,7 +67,7 @@ export default function Submit({ params }: SubmitProps) {
   }
 
   async function modifyMovie() {
-    const url = `http://localhost:8000/movies/${params.id}`;
+    const url = `${baseURL}/movies/${params.id}`;
     const data = {
       title,
       genre,
@@ -95,6 +96,13 @@ export default function Submit({ params }: SubmitProps) {
 
   useEffect(() => {
     getMovie();
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("isAdmin")) {
+      router.push("/");
+      alert("관리자만 접근 가능합니다.");
+    }
   }, []);
 
   return (

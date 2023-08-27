@@ -6,7 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { koKR } from "@mui/x-date-pickers/locales";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormControl,
@@ -28,6 +28,7 @@ export default function Submit() {
   const [genre, setGenre] = useState<string>("");
   const [releaseDate, setReleaseDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const router = useRouter();
 
@@ -41,7 +42,7 @@ export default function Submit() {
   });
 
   async function submitMovie() {
-    const url = "http://localhost:8000/movies";
+    const url = `${baseURL}/movies`;
     const data = {
       title,
       genre,
@@ -66,6 +67,13 @@ export default function Submit() {
       alert("영화 등록에 실패했습니다.");
     }
   }
+
+  useEffect(() => {
+    if (!localStorage.getItem("isAdmin")) {
+      router.push("/");
+      alert("관리자만 접근 가능합니다.");
+    }
+  }, []);
 
   return (
     <div className="pt-4 pl-4">
