@@ -29,7 +29,7 @@
 <br>
 
 ## 백엔드 해커톤을 진행하지 않았을 경우 사용할 수 있는 백엔드 레포 주소
-- repo : [ https://github.com/0BVer/movieReview](https://github.com/0BVer/Good-Night-2nd-Hackathon-Backend)
+- repo : https://github.com/0BVer/Good-Night-2nd-Hackathon-Backend
 - swagger : http://localhost:8080/api/v1/swagger/index.html#/
 
 <br>
