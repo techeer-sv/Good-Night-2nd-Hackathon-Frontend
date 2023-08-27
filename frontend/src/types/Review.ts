@@ -4,3 +4,8 @@ export interface Review {
     rating: number;
     content: string;
 }
+export interface ReviewAdd {
+    movie_id: number;
+    rating: number;
+    content: string;
+}

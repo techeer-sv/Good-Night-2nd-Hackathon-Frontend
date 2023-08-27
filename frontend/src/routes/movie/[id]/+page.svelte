@@ -3,6 +3,7 @@
     import axios from "axios";
     import type {Movie} from "../../../types/Movie";
     import type {Review} from "../../../types/Review";
+    import ReviewAdd from "../../../ReviewAdd.svelte";
 
     let movie: Movie = {
         id: 0,
@@ -35,6 +36,12 @@
             console.error('리뷰 조회 실패', error);
         }
     });
+    let showReviewAdd = false;
+
+    let toggleReviewAdd = () => {
+        showReviewAdd = !showReviewAdd;
+    }
+
 </script>
 <style>
     .review-grid {
@@ -65,6 +72,11 @@
         <span>{movie.end_date}</span>
     </li>
 </ul>
+
+<button on:click={toggleReviewAdd}>{movie.title}의 리뷰 추가</button>
+{#if showReviewAdd}
+    <ReviewAdd movieId={data.id} />
+{/if}
 <div class="review-grid">
     {#each reviews as review}
         <div class="review-row">
