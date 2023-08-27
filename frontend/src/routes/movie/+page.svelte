@@ -9,6 +9,6 @@
 </script>
 
 <main>
-    <h1>Movie List</h1>
+    <h1>Seyeoncinema Movie List</h1>
     <MovieList {movies} />
 </main>
