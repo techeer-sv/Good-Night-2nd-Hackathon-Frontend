@@ -4,31 +4,42 @@
     import {callApi} from "../services/api.js";
     import moviesStore from '../store/movies.js';
     import { onDestroy } from 'svelte';
+
     callApi('GET', '/movies')
         .then(res => {
             moviesStore.set(res.data);
-
         })
         .catch(err => {
             console.log(err);
         });
     
-    function handleAddMovieClick() {
-        navigate('/movies/add');
-    }
     let movies = [];
-
+    let isShowing = true; // 상영 여부
+    let filteredMovies = []; // 필터링된 영화 목록
     let selectedGenre = '';
 
     let minRating = 0;
-    let currentPage = 1;
-    let totalPages = 10;  // 예시 값, 실제로는 백엔드에서 받아와야 합니다.
 
-    const unsubscribe = moviesStore.subscribe(getMovies => {
-        movies = getMovies;
-    });
+    function filterMovies() {
+        console.log("movie",movies);
+        console.log("genre",selectedGenre)
+        console.log("isShowing",isShowing)
+        console.log("minRating",minRating)
+        filteredMovies = movies.filter(movie => {
+            return (
+                (selectedGenre === '' || movie.genre === selectedGenre) &&
+                movie.isShowing === isShowing
+            );
+        });
+        console.log(filteredMovies);
+    }
+
+    function handleAddMovieClick() {
+        navigate('/movies/add');
+    }
+
     function deleteMovie(movieId) {
-        callApi('DELETE',"movies/"+movieId)
+        callApi('DELETE', "movies/" + movieId)
             .then(res => {
                 moviesStore.set(movies.filter(movie => movie.id !== movieId));
             })
@@ -37,10 +48,11 @@
             });
     }
 
-    function changePage(page) {
-        currentPage = page;
-        // 페이지가 변경될 때마다 새로운 영화 목록을 불러와야 합니다.
-    }
+    const unsubscribe = moviesStore.subscribe(getMovies => {
+        movies = getMovies;
+        filterMovies();
+    });
+
     onDestroy(() => {
         unsubscribe();
     });
@@ -48,11 +60,11 @@
 
 <div>
     <h1>영화 목록</h1>
-    {#if movies.length === 0}
+    {#if filteredMovies.length === 0}
         <p>영화가 없습니다.</p>
     {:else}
         <ul>
-            {#each movies as movie}
+            {#each filteredMovies as movie}
                 <li>
                     <Link to={`/movies/detail/${movie.id}`}>{movie.title}</Link>
                     <button on:click={() => navigate(`/movies/edit/${movie.id}`)}>수정</button>
@@ -62,41 +74,54 @@
         </ul>
     {/if}
     
-    <!-- 필터링 기능 (간략한 예시) -->
-    <select bind:value={selectedGenre}>
+
+    <select class="select-genre" bind:value={selectedGenre}>
         <option value="">모든 장르</option>
-        <!-- 장르 목록을 동적으로 불러와야 합니다. -->
-        <option value="스릴러">스릴러</option>
-        <option value="액션">액션</option>
-        <option value="코믹">코믹</option>
-        <option value="로맨스">로맨스</option>
-        <!-- ... -->
+        <option value="THRILLER">스릴러</option>
+        <option value="ROMANCE">액션</option>
+        <option value="COMIC">코믹</option>
+        <option value="ACTION">로맨스</option>
+
     </select>
 
-    <input type="number" bind:value={minRating} placeholder="최소 평점" />
+    <div class="filter-isShowing">
+        <input type="checkbox" bind:checked={isShowing} /> 상영 중인 영화만 보기
+    </div>
 
-    <!-- 페이지네이션 (간략한 예시) -->
-    <button on:click={() => changePage(currentPage - 1)} disabled={currentPage === 1}>이전</button>
-    <span>{currentPage}</span>
-    <button on:click={() => changePage(currentPage + 1)} disabled={currentPage === totalPages}>다음</button>
-
+    <button class="add-movie-button" on:click={handleAddMovieClick}>
+        영화 추가
+    </button>
+    <button class=search-btn on:click={filterMovies}>검색하기</button>
 </div>
-<button class="add-movie-button" on:click={handleAddMovieClick}>
-    영화 추가
-</button>
-<style>
-    .add-movie-button {
-    position: fixed; /* 고정 위치 */
-    bottom: 10px; /* 하단에서 10px 떨어진 위치 */
-    right: 10px; /* 오른쪽에서 10px 떨어진 위치 */
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
 
+<style>
+    .search-btn{
+        position: relative; 
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .filter-isShowing {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .select-genre {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+    .add-movie-button {
+        position: relative; 
+        margin-left: 5px;
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
     .add-movie-button:hover {
         background-color: #0056b3;
     }
