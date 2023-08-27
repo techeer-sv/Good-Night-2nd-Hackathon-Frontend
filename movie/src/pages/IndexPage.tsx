@@ -44,9 +44,6 @@ export default function IndexPage() {
     try {
       const response = await baseInstance.delete(`/movies/${movieId}`);
       if (response.status === 204) {
-        // 삭제 성공
-        // 필요한 업데이트 작업 수행
-        // 예를 들어, 삭제된 영화를 리스트에서 제거하는 로직을 구현할 수 있습니다.
         setMovies([...movies.filter((item) => item.id !== movieId)]);
       }
     } catch (error) {
@@ -95,20 +92,22 @@ export default function IndexPage() {
         <div>영화가 없어요..</div>
       ) : (
         movies.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              navigate('/detail');
-            }}
-          >
-            <p>{item.title}</p>
-            <p>{item.genre}</p>
-            <p>{item.isShowing ? '상영중' : '상영 종료'}</p>
-            <p>개봉일 : {new Date(item.releasedAt).toLocaleDateString()}</p>
-            <p>상영 종료일 : {new Date(item.endAt).toLocaleDateString()}</p>
+          <>
+            <div
+              key={index}
+              onClick={() => {
+                navigate('/detail');
+              }}
+            >
+              <p>{item.title}</p>
+              <p>{item.genre}</p>
+              <p>{item.isShowing ? '상영중' : '상영 종료'}</p>
+              <p>개봉일 : {new Date(item.releasedAt).toLocaleDateString()}</p>
+              <p>상영 종료일 : {new Date(item.endAt).toLocaleDateString()}</p>
+            </div>
             <button
               onClick={() => {
-                navigate('/modify');
+                navigate('/modify', { state: { movie: item } });
               }}
             >
               수정하기
@@ -121,7 +120,7 @@ export default function IndexPage() {
               삭제하기
             </button>
             <div>---------------------</div>
-          </div>
+          </>
         ))
       )}
     </>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import DropDownBtn from '../components/DropDownBtn';
 import { baseInstance } from '../apis/config';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegistPage() {
   const [view, setView] = useState(false);
@@ -9,6 +10,7 @@ export default function RegistPage() {
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState('');
   const genres = ['스릴러', '로맨스', '코믹', '액션'];
+  const navigate = useNavigate();
 
   const registMovie = async () => {
     if (!genre || !openDate || !finDate || !title) {
@@ -24,8 +26,10 @@ export default function RegistPage() {
       title: title,
     };
     const response = await baseInstance.post('/movies', data);
-    if (response.status === 201) console.log('regist fin');
-    else console.log('error');
+    if (response.status === 201) {
+      console.log('regist fin');
+      navigate('/');
+    } else console.log('error');
   };
 
   console.log(genre + openDate + finDate + title);
