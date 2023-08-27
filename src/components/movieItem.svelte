@@ -13,7 +13,7 @@
 	}
 
 	function navigateToEditPage() {
-		goto(`updateMovie/${movie.id}`);
+		goto(`editMovie/${movie.id}`);
 	}
 
 	function deleteItem() {
