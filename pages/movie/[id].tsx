@@ -1,22 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../src/layouts/Layout";
 import { useRouter } from "next/router";
 import { useFindMovieById } from "../../src/api/hook/MovieHook";
 import { format } from "date-fns";
-import { Button } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/react";
 import { useAddReview, useFindAllReviews } from "../../src/api/hook/ReviewHook";
 
 function MovieDetailPage() {
+  const items = [
+    {
+      key: "fivePointUnder",
+      label: "5점이상",
+      value: "5",
+    },
+    {
+      key: "fourPointUnder",
+      label: "4점이상",
+      value: "4",
+    },
+    {
+      key: "threePointUnder",
+      label: "3점이상",
+      value: "3",
+    },
+    {
+      key: "twoPointUnder",
+      label: "2점이상",
+      value: "2",
+    },
+    {
+      key: "onePointUnder",
+      label: "1점이상",
+      value: "1",
+    },
+  ];
+
   const router = useRouter();
   const { id } = router.query;
 
+  const [comment, setComment] = useState<string>("");
+  const [score, setScore] = useState<number>(0);
+  const [scoreCap, setScoreCap] = useState<string>();
+
   const { data: movie, isLoading } = useFindMovieById(Number(id));
   const { data: reviews, refetch: refetchReviews } = useFindAllReviews(
-    Number(id)
+    Number(id),
+    scoreCap
   );
-
-  const [comment, setComment] = React.useState<string>("");
-  const [score, setScore] = React.useState<number>(0);
 
   const { mutate: addReview } = useAddReview(comment, Number(id), score, () => {
     alert("리뷰가 등록되었습니다.");
@@ -54,7 +90,26 @@ function MovieDetailPage() {
           </text>
           <br />
 
-          <text className="text-2xl font-bold text-main-1">리뷰</text>
+          <div className="flex justify-between">
+            <text className="text-2xl font-bold text-main-1">리뷰</text>
+            <Dropdown className="w-full">
+              <DropdownTrigger>
+                <Button className="font-semibold">평점 기준 정렬</Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Dynamic Actions" items={items}>
+                {items.map((item) => (
+                  <DropdownItem
+                    key={item.key}
+                    value={item.value}
+                    className="text-black"
+                    onClick={() => setScoreCap(item.value)}
+                  >
+                    {item.label}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
 
           {reviews &&
             reviews?.data?.map((review: any) => (
