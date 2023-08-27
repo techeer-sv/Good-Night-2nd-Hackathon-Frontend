@@ -6,7 +6,7 @@ function SearchNotFoundSection() {
 
   return (
     <>
-      <div className="flex flex-col items-center space-y-10 self-center">
+      <div className="mt-40 flex flex-col items-center space-y-10 self-center">
         <text
           key="introduction-name"
           className="text-5xl font-bold text-main-1"

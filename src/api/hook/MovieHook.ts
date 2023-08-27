@@ -27,3 +27,11 @@ export const useFindAllMovies = () => {
     queryFn: () => MovieService.getAllMovies(),
   });
 };
+
+export const useDeleteMovie = (id: number, onSuccess: () => void) => {
+  return useMutation({
+    mutationFn: () => MovieService.deleteMovie(id),
+    onSuccess: onSuccess,
+    onError: () => alert("영화 삭제에 실패했습니다."),
+  });
+};

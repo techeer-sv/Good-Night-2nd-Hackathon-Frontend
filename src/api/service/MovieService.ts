@@ -15,6 +15,10 @@ export class MovieService {
     });
   };
 
+  public static deleteMovie = async (id: number): Promise<void> => {
+    await api.delete(`/movies/${id}`);
+  };
+
   public static getAllMovies = async () => {
     return api.get("/movies");
   };
