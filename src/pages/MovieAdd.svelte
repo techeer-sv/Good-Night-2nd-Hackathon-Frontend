@@ -44,12 +44,12 @@
 
 <div id="datepicker">
   <div id="startdate">
-    <DateInput bind:value={startDate} format={"yyyy-MM-dd HH:mm:ss"}/>
-    <p class="start">상영시작 날짜 : {startDate.toString()}</p>
+    <DateInput bind:value={startDate} format={"yyyy-MM-dd"}/>
+    <p class="start">상영시작 날짜 : {startDate.toLocaleDateString()}</p>
   </div>
   <div id="enddate">
-    <DateInput bind:value={endDate} format={"yyyy-MM-dd HH:mm:ss"}/>
-    <p class="end">상영종료 날짜 : {endDate.toString()}</p>
+    <DateInput bind:value={endDate} format={"yyyy-MM-dd"}/>
+    <p class="end">상영종료 날짜 : {endDate.toLocaleDateString()}</p>
   </div>
 </div>
 

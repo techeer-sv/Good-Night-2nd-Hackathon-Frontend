@@ -7,6 +7,7 @@
     callApi('GET', '/movies')
         .then(res => {
             moviesStore.set(res.data);
+
         })
         .catch(err => {
             console.log(err);
@@ -53,7 +54,7 @@
         <ul>
             {#each movies as movie}
                 <li>
-                    <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+                    <Link to={`/movies/detail/${movie.id}`}>{movie.title}</Link>
                     <button on:click={() => navigate(`/movies/edit/${movie.id}`)}>수정</button>
                     <button on:click={() => deleteMovie(movie.id)}>삭제</button>
                 </li>
