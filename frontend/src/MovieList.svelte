@@ -1,23 +1,10 @@
 <script lang="ts">
     import type {Movie} from "./types/Movie";
+    import {goto} from "$app/navigation";
 
     export let movies: Movie[];
 
-    const selectMovie = (movie: Movie) => {
-        alert(`You selected ${movie.title}`);
-    };
-
 </script>
-
-<!--<ul>-->
-<!--    {#each movies as movie}-->
-<!--        <li class="movie-list-item" role="button" tabindex="0"-->
-<!--            on:click={() => selectMovie(movie)}-->
-<!--            on:keydown={(e) => { if (e.key === 'Enter') selectMovie(movie); }}>-->
-<!--            <span>{movie.title}</span>-->
-<!--        </li>-->
-<!--    {/each}-->
-<!--</ul>-->
 
 <style>
     .movie-grid {
@@ -35,8 +22,8 @@
 <div class="movie-grid">
     {#each movies as movie}
         <div class="movie-item" role="button" tabindex="0"
-             on:click={() => selectMovie(movie)}
-             on:keydown={(e) => { if (e.key === 'Enter') selectMovie(movie); }}>
+             on:click={() => goto(`/movie/${movie.id}`)}
+             on:keydown={(e) => { if (e.key === 'Enter') goto(`/movie/${movie.id}`)}}>
             <h3>{movie.title}</h3>
         </div>
     {/each}
