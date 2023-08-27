@@ -34,7 +34,7 @@ function GNB() {
       >
         <img
           className="h-12 w-fit cursor-pointer rounded-full"
-          src={"png/logo.png"}
+          src={"/png/logo.png"}
           alt={"logoImg"}
         />
         <button
