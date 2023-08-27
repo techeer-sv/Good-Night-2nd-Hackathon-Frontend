@@ -66,7 +66,7 @@ function GNB() {
           <DropdownMenu
             aria-label="Dynamic Actions"
             items={items}
-            disabledKeys={[isAdmin ? setAdmin.key : offAdmin.key]}
+            disabledKeys={isAdmin ? [setAdmin.key] : [offAdmin.key, "addMovie"]}
           >
             {items
               .map((item) => (

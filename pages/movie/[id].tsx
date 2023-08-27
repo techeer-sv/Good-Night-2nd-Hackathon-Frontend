@@ -13,6 +13,7 @@ import {
 import { useAddReview, useFindAllReviews } from "../../src/api/hook/ReviewHook";
 import NotFoundErrorSection from "../../src/components/Section/NotFoundErrorSection";
 import LoadingSection from "../../src/components/Section/LoadingSection";
+import useIsAdminStore from "../../src/storage/zustand/IsAdminStore";
 
 function MovieDetailPage() {
   const items = [
@@ -45,6 +46,8 @@ function MovieDetailPage() {
 
   const router = useRouter();
   const { id } = router.query;
+
+  const { isAdmin } = useIsAdminStore();
 
   const [comment, setComment] = useState<string>("");
   const [score, setScore] = useState<number>(0);
@@ -128,37 +131,39 @@ function MovieDetailPage() {
               </div>
             ))}
 
-          <form className="space-y-2" onSubmit={handleSubmit}>
-            <div>
-              <label className="text-sm font-semibold">내용</label>
-              <input
-                placeholder="리뷰 작성"
-                className="h-20 w-full rounded-md border-2 border-gray-300 px-4 py-2 font-semibold text-main-1 outline-2 outline-gray-600"
-                value={comment}
-                onChange={(event) => setComment(event.target.value)}
-              />
-            </div>
+          {!isAdmin && (
+            <form className="space-y-2" onSubmit={handleSubmit}>
+              <div>
+                <label className="text-sm font-semibold">내용</label>
+                <input
+                  placeholder="리뷰 작성"
+                  className="h-20 w-full rounded-md border-2 border-gray-300 px-4 py-2 font-semibold text-main-1 outline-2 outline-gray-600"
+                  value={comment}
+                  onChange={(event) => setComment(event.target.value)}
+                />
+              </div>
 
-            <div>
-              <label className="text-sm font-semibold">평점</label>
-              <input
-                type="number"
-                placeholder="평점"
-                className="w-full rounded-md border-2 border-gray-300 px-4 py-2 font-semibold text-main-1 outline-2 outline-gray-600"
-                value={score}
-                onChange={(event) => setScore(Number(event.target.value))}
-                max={5}
-                min={0}
-              />
-            </div>
+              <div>
+                <label className="text-sm font-semibold">평점</label>
+                <input
+                  type="number"
+                  placeholder="평점"
+                  className="w-full rounded-md border-2 border-gray-300 px-4 py-2 font-semibold text-main-1 outline-2 outline-gray-600"
+                  value={score}
+                  onChange={(event) => setScore(Number(event.target.value))}
+                  max={5}
+                  min={0}
+                />
+              </div>
 
-            <Button
-              className="w-full bg-gray-600 font-semibold text-white"
-              type="submit"
-            >
-              등록하기
-            </Button>
-          </form>
+              <Button
+                className="w-full bg-gray-600 font-semibold text-white"
+                type="submit"
+              >
+                등록하기
+              </Button>
+            </form>
+          )}
         </div>
         <Button
           className="sticky z-50 w-full bg-red-500 font-semibold text-white"

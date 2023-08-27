@@ -4,9 +4,12 @@ import { useFindAllMovies } from "../../api/hook/MovieHook";
 import { MovieService } from "../../api/service/MovieService";
 import SearchNotFoundSection from "./SearchNotFoundSection";
 import LoadingSection from "./LoadingSection";
+import useIsAdminStore from "../../storage/zustand/IsAdminStore";
 
 function MovieListSection() {
   const router = useRouter();
+
+  const { isAdmin } = useIsAdminStore();
 
   const { data: movies, refetch: refetchMovie, isLoading } = useFindAllMovies();
 
@@ -35,22 +38,24 @@ function MovieListSection() {
               <text>{index + 1}. </text>
               <text>{movie.title}</text>
             </div>
-            <div className="flex space-x-3">
-              <text
-                className="cursor-pointer text-blue-500"
-                onClick={() => router.push(`/movie/edit/${movie.id}`)}
-              >
-                수정
-              </text>
-              <text
-                className="cursor-pointer text-red-500"
-                onClick={() => {
-                  deleteMovie(movie.id);
-                }}
-              >
-                삭제
-              </text>
-            </div>
+            {isAdmin && (
+              <div className="flex space-x-3">
+                <text
+                  className="cursor-pointer text-blue-500"
+                  onClick={() => router.push(`/movie/edit/${movie.id}`)}
+                >
+                  수정
+                </text>
+                <text
+                  className="cursor-pointer text-red-500"
+                  onClick={() => {
+                    deleteMovie(movie.id);
+                  }}
+                >
+                  삭제
+                </text>
+              </div>
+            )}
           </div>
         ))}
       </div>
