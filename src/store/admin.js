@@ -1,5 +1,5 @@
 import {writable} from 'svelte/store';
-
+ 
 let initialAdmin = false;
 
 const adminStore = writable(initialAdmin);

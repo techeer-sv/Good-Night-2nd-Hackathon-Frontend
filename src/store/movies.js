@@ -1,5 +1,5 @@
 import {writable} from 'svelte/store';
-
+ 
 let initialMovies = []
 
 const moviesStore = writable(initialMovies);

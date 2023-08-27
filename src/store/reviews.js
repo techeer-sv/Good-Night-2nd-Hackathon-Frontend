@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-
+ 
 let initialRevies = [];
 
 const reviewsStore = writable(initialRevies);
