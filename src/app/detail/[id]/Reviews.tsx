@@ -37,7 +37,7 @@ export default function Reviews({ movieId }: ReviewProps) {
   };
 
   async function getReviews() {
-    const reviewsUrl = new URL(`${baseURL}/${movieId}`);
+    const reviewsUrl = new URL(`${baseURL}/reviews/${movieId}`);
     const reviewsParams = new URLSearchParams();
     reviewsParams.append("minRating", minRating.toString());
 
