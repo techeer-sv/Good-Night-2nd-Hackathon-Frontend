@@ -77,11 +77,11 @@ export default function Home() {
       </div>
       {data.map((movie) => (
         <div className="flex ml-2 gap-2" key={movie.id}>
-          <div>{movie.title}</div>
-          <div>{movie.genre}</div>
-          <div>{movie.releaseDate}</div>
-          <div>{movie.endDate}</div>
-          {movie.isShowing ? <p>상영중</p> : <p>상영중지</p>}
+          <div>제목 : {movie.title}</div>
+          <div>장르 : {movie.genre}</div>
+          <div>개봉일 : {movie.releaseDate}</div>
+          <div>상영종료일 : {movie.endDate}</div>
+          <div>상영여부 : {movie.isShowing ? "상영중" : "상영중지"}</div>
         </div>
       ))}
     </div>

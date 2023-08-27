@@ -27,7 +27,7 @@ type SubmitProps = {
   searchParams: {};
 };
 
-export default function Submit({ params, searchParams }: SubmitProps) {
+export default function Submit({ params }: SubmitProps) {
   const [title, setTitle] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
   const [releaseDate, setReleaseDate] = useState<Dayjs | null>(null);
