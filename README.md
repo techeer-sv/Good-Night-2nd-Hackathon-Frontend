@@ -28,6 +28,12 @@
 
 <br>
 
+## 백엔드 해커톤을 진행하지 않았을 경우 사용할 수 있는 백엔드 레포 주소
+- https://github.com/0BVer/movieReview
+- swagger: http://localhost:8080/api/v1/swagger/index.html#/
+
+<br>
+
 ## 기능
 
 ### 영화 등록 페이지
