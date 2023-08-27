@@ -148,7 +148,7 @@ function EditMovieSection() {
             />
           </div>
 
-          <div className="flex flex-col space-y-1">
+          <div className="flex w-full flex-col space-y-1">
             <Button
               className="w-full bg-gray-600 font-semibold text-white"
               type="submit"
