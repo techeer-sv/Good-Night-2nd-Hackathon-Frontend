@@ -34,32 +34,44 @@ export default function RegistPage() {
 
   console.log(genre + openDate + finDate + title);
   return (
-    <>
-      <div>
+    <div className='p-6'>
+      <div className='mb-4'>
         <label
+          className='cursor-pointer'
           onClick={() => {
             setView(!view);
           }}
         >
-          <button>장르 {view ? '▲' : '▼'}</button>
+          <button className='border p-1'>장르 {view ? '▲' : '▼'}</button>
         </label>
         {view && <DropDownBtn items={genres} setting={setGenre} />}
       </div>
-      <div>개봉일</div>
+      <div className='mb-2'>개봉일</div>
       <input
         type='date'
+        className='border p-1'
         value={openDate}
         onChange={(e) => setOpenDate(e.target.value)}
       />
-      <div>상영 종료일</div>
+      <div className='mb-2'>상영 종료일</div>
       <input
         type='date'
+        className='border p-1'
         value={finDate}
         onChange={(e) => setFinDate(e.target.value)}
       />
-      <div>제목</div>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
-      <button onClick={registMovie}>확인</button>
-    </>
+      <div className='mb-2'>제목</div>
+      <input
+        className='border p-1'
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <button
+        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
+        onClick={registMovie}
+      >
+        확인
+      </button>
+    </div>
   );
 }

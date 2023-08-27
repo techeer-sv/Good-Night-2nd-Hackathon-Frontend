@@ -38,7 +38,9 @@ export default function DetailPage() {
   };
 
   const getReviews = async () => {
-    const response = await baseInstance.get('/reviews');
+    const response = await baseInstance.get('/reviews', {
+      params: { movieId: id },
+    });
     console.log(response.data);
     setReviews(response.data);
   };
@@ -46,7 +48,7 @@ export default function DetailPage() {
   useEffect(() => {
     getMovies();
     getReviews();
-  }, []);
+  }, [reviews]);
 
   const handleStarHover = (value: number) => {
     setRating(value); // 마우스를 올린 위치까지 별점 증가
@@ -69,47 +71,83 @@ export default function DetailPage() {
   console.log(review);
   console.log(rating);
 
+  const isAdmin = localStorage.getItem('admin') === 'true';
+
   return (
-    <>
+    <div className='p-6'>
       {movie ? (
-        <>
-          <div>제목: {movie.title}</div>
-          <div>장르: {movie.genre}</div>
-          <div>{movie.isShowing ? '상영중' : '상영 종료'}</div>
-          <div>개봉일: {new Date(movie.releasedAt).toLocaleDateString()}</div>
-          <div>상영 종료일: {new Date(movie.endAt).toLocaleDateString()}</div>
-        </>
+        <div className={`mb-4 ${isAdmin ? 'text-white' : ''}`}>
+          <div className='font-bold text-lg mb-2'>제목: {movie.title}</div>
+          <div className='text-gray-600'>장르: {movie.genre}</div>
+          <div className='text-gray-600'>
+            {movie.isShowing ? '상영중' : '상영 종료'}
+          </div>
+          <div className='text-gray-600'>
+            개봉일: {new Date(movie.releasedAt).toLocaleDateString()}
+          </div>
+          <div className='text-gray-600'>
+            상영 종료일: {new Date(movie.endAt).toLocaleDateString()}
+          </div>
+        </div>
       ) : (
         <div>Loading...</div>
       )}
-      <div>----리뷰 작성----</div>
-      <div>
-        {[1, 2, 3, 4, 5].map((value) => (
-          <span
-            key={value}
-            onMouseEnter={() => handleStarHover(value)}
-            style={{ cursor: 'pointer' }}
-          >
-            {rating >= value ? (
-              <StarIcon color='primary' />
-            ) : (
-              <StarBorderIcon color='primary' />
-            )}
-          </span>
-        ))}
-        <p>선택한 별점: {rating}</p>
-      </div>
-      <input value={review} onChange={(e) => setReview(e.target.value)} />
-      <button onClick={registReview}>확인</button>
-      <div>----리뷰 목록----</div>
 
-      {reviews.map((item, index) => (
-        <div key={index}>
-          <div>{item.score}</div>
-          <div>{item.comment}</div>
-          <div>{new Date(item.createdAt).toISOString().split('T')[0]}</div>
+      {isAdmin ? null : (
+        <div>
+          <div className='mb-4'>----리뷰 작성----</div>
+          <div className='flex items-center mb-4'>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <span
+                key={value}
+                className='cursor-pointer'
+                onMouseEnter={() => handleStarHover(value)}
+              >
+                {rating >= value ? (
+                  <StarIcon className='text-yellow-500' />
+                ) : (
+                  <StarBorderIcon className='text-yellow-500' />
+                )}
+              </span>
+            ))}
+            <p className='text-gray-600 ml-2'>선택한 별점: {rating}</p>
+          </div>
+          <input
+            className='border p-1 mb-2'
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+          />
+          <button
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+            onClick={registReview}
+          >
+            확인
+          </button>
         </div>
-      ))}
-    </>
+      )}
+
+      <div className={`mt-4 ${isAdmin ? 'text-white' : ''}`}>
+        ----리뷰 목록----
+      </div>
+
+      {reviews === null ? (
+        <div className={`my-4 ${isAdmin ? 'text-white' : ''}`}>
+          리뷰가 없어요..
+        </div>
+      ) : (
+        reviews.map((item, index) => (
+          <div
+            key={index}
+            className={`border p-4 mt-2 ${isAdmin ? 'bg-white' : ''}`}
+          >
+            <div className='font-bold mb-1'>{item.score}</div>
+            <div className='text-gray-600 mb-1'>{item.comment}</div>
+            <div className='text-gray-600'>
+              {new Date(item.createdAt).toLocaleDateString()}
+            </div>
+          </div>
+        ))
+      )}
+    </div>
   );
 }
