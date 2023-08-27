@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { NextUIProvider } from "@nextui-org/react";
 import React, { ReactElement, ReactNode } from "react";
 
 type Page<P = Record<string, never>> = NextPage<P> & {
@@ -18,14 +19,14 @@ function App({ Component, pageProps }: Props) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <>
+    <NextUIProvider>
       <div className="flex min-h-screen flex-1 flex-col bg-white font-montserrat text-main-1 tablet:px-10">
         <Head>
           <title>테커 굿나잇 2nd 해커톤</title>
         </Head>
         {getLayout(<Component {...pageProps} />)}
       </div>
-    </>
+    </NextUIProvider>
   );
 }
 
