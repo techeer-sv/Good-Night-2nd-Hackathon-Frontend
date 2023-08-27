@@ -64,18 +64,12 @@
     }
 </style>
 
+<h3>{movie.title}</h3>
 <ul>
-    <li>
-        <h3><span>{movie.title}</span></h3>
-        <h4>현재 상영 여부</h4>
-        <span>{movie.is_showing}</span>
-        <h4>장르</h4>
-        <span>{movie.genre}</span>
-        <h4>상영 시작일</h4>
-        <span>{formatDate(movie.release_date)}</span>
-        <h4>상영 종료일</h4>
-        <span>{formatDate(movie.end_date)}</span>
-    </li>
+    <li><h4>현재 상영 여부: {movie.is_showing}</h4></li>
+    <li><h4>장르: {movie.genre}</h4></li>
+    <li><h4>상영 시작일: {formatDate(movie.release_date)}</h4></li>
+    <li><h4>상영 종료일: {formatDate(movie.end_date)}</h4></li>
 </ul>
 
 <button on:click={toggleReviewAdd}>{movie.title}의 리뷰 추가</button>

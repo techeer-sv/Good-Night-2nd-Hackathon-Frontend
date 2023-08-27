@@ -9,6 +9,7 @@
 
     function toggleMovieUpdate(movieId) {
         showMovieUpdate[movieId] = !showMovieUpdate[movieId];
+        showMovieUpdate = {...showMovieUpdate}; // Svelte가 변화를 감지하도록 객체를 새로 할당
     }
 
     async function deleteMovie(movieId) {
@@ -30,6 +31,27 @@
 </script>
 
 <style>
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* Could be more or less, depending on screen size */
+    }
+
     .movie-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -75,8 +97,14 @@
             </div>
             <div class="movie-actions">
                 <button on:click={() => toggleMovieUpdate(movie.id)}>수정</button>
+
                 {#if showMovieUpdate[movie.id]}
-                    <MovieUpdate movie={movie}/>
+                    <div class="modal" style="display: block;">
+                        <div class="modal-content">
+                            <span class="close-button" on:click={() => toggleMovieUpdate(movie.id)}>&times;</span>
+                            <MovieUpdate movie={movie}/>
+                        </div>
+                    </div>
                 {/if}
                 <button on:click={() => deleteMovie(movie.id)}>삭제</button>
             </div>
