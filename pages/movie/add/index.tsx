@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddMovieSection from "../../../src/components/Section/AddMovieSection";
 import Layout from "../../../src/layouts/Layout";
+import useIsAdminStore from "../../../src/storage/zustand/IsAdminStore";
 
 function AddMoviePage() {
+  const { isAdmin } = useIsAdminStore();
+
+  useEffect(() => {
+    if (!isAdmin) {
+      alert("관리자만 접근 가능합니다.");
+      window.location.href = "/";
+    }
+  }, [isAdmin]);
+
   return (
     <>
       <main className="mx-10 mt-10 flex flex-col justify-center space-y-10">
