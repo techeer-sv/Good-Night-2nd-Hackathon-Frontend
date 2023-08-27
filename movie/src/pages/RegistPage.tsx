@@ -37,9 +37,9 @@ export default function RegistPage() {
             setView(!view);
           }}
         >
-          <button>장르 {view ? '^' : 'v'}</button>
+          <button>장르 {view ? '▲' : '▼'}</button>
         </label>
-        {view && <DropDownBtn items={genres} setGenre={setGenre} />}
+        {view && <DropDownBtn items={genres} setting={setGenre} />}
       </div>
       <div>개봉일</div>
       <input

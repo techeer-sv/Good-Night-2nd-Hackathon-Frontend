@@ -1,15 +1,15 @@
 type DropDownBtnProps = {
   items: string[];
-  setGenre: any;
+  setting: any;
 };
-export default function DropDownBtn({ items, setGenre }: DropDownBtnProps) {
+export default function DropDownBtn({ items, setting }: DropDownBtnProps) {
   return (
     <>
       {items.map((item, index) => (
         <li
           key={index}
           onClick={() => {
-            setGenre(item);
+            setting(item);
             // console.log(item);
           }}
         >
