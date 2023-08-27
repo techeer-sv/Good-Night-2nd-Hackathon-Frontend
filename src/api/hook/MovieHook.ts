@@ -28,6 +28,35 @@ export const useFindAllMovies = () => {
   });
 };
 
+export const useFindMovieById = (id: number) => {
+  return useQuery({
+    queryFn: () => MovieService.getMovieById(id),
+    enabled: !!id,
+  });
+};
+
+export const useEditMovie = (
+  id: number,
+  title: string,
+  genre: MovieType,
+  releasedAt: Date,
+  endAt: Date,
+  onSuccess: () => void
+) => {
+  return useMutation({
+    mutationFn: () =>
+      MovieService.editMovie(
+        id,
+        title,
+        genre,
+        releasedAt.toISOString(),
+        endAt.toISOString()
+      ),
+    onSuccess: onSuccess,
+    onError: () => alert("영화 수정에 실패했습니다."),
+  });
+};
+
 export const useDeleteMovie = (id: number, onSuccess: () => void) => {
   return useMutation({
     mutationFn: () => MovieService.deleteMovie(id),
