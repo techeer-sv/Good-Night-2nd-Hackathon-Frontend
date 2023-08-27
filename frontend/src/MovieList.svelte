@@ -9,8 +9,7 @@
 <ul>
     {#each movies as movie}
         <li>
-            {movie.title}
-            <button on:click={() => selectMovie(movie)}>Select</button>
+            <a href on:click={() => selectMovie(movie)}>{movie.title}</a>
         </li>
     {/each}
 </ul>
