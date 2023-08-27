@@ -28,7 +28,7 @@
         filteredMovies = movies.filter(movie => {
             return (
                 (selectedGenre === '' || movie.genre === selectedGenre) &&
-                movie.isShowing === isShowing
+                movie.isShowing >= isShowing
             );
         });
         console.log(filteredMovies);
@@ -74,55 +74,89 @@
         </ul>
     {/if}
     
-
-    <select class="select-genre" bind:value={selectedGenre}>
-        <option value="">모든 장르</option>
-        <option value="THRILLER">스릴러</option>
-        <option value="ROMANCE">액션</option>
-        <option value="COMIC">코믹</option>
-        <option value="ACTION">로맨스</option>
-
-    </select>
-
-    <div class="filter-isShowing">
-        <input type="checkbox" bind:checked={isShowing} /> 상영 중인 영화만 보기
+    <div class = filtering-container>
+        <h3>조회 필터링</h3>
+        <select class="select-genre" bind:value={selectedGenre}>
+            <option value="">모든 장르</option>
+            <option value="THRILLER">스릴러</option>
+            <option value="ROMANCE">액션</option>
+            <option value="COMIC">코믹</option>
+            <option value="ACTION">로맨스</option>
+    
+        </select>
+    
+        <div class="filter-isShowing">
+            <input type="checkbox" bind:checked={isShowing} /> 상영 중인 영화만 보기
+        </div>
+    
+        <button class="add-movie-button" on:click={handleAddMovieClick}>
+            영화 추가
+        </button>
+        <button class=search-btn on:click={filterMovies}>조회하기</button>
     </div>
-
-    <button class="add-movie-button" on:click={handleAddMovieClick}>
-        영화 추가
-    </button>
-    <button class=search-btn on:click={filterMovies}>검색하기</button>
+    
 </div>
 
 <style>
-    .search-btn{
-        position: relative; 
-        padding: 10px 15px;
+    .filtering-container {
+        display:inline-flex; 
+        flex-direction: column;
+        align-items: left;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .search-btn, .add-movie-button {
+        margin-top: 15px;
+        padding: 10px 20px;
         background-color: #007BFF;
         color: #fff;
-        text-decoration: none;
+        border: none;
         border-radius: 4px;
+        cursor: pointer;
         transition: background-color 0.3s;
+        text-align:center;
     }
-    .filter-isShowing {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    .select-genre {
-        margin-top: 30px;
-        margin-bottom: 10px;
-    }
-    .add-movie-button {
-        position: relative; 
-        margin-left: 5px;
-        padding: 10px 15px;
-        background-color: #007BFF;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-    .add-movie-button:hover {
+
+    .search-btn:hover, .add-movie-button:hover {
         background-color: #0056b3;
+    }
+
+    .filter-isShowing {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .select-genre {
+        margin-top: 10px;
+        padding: 5px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        padding: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    button {
+        margin-left: 10px;
     }
 </style>
