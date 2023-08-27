@@ -4,14 +4,9 @@
 
 	let movieId = JSON.stringify(Number($page.params.movieId));
 	let movieDetails = null;
-
-	let isEditing = {
-		title: false,
-		genre: false,
-		isShowing: false,
-		releasedAt: false,
-		endAt: false
-	};
+	let reviews = [];
+	let newReview = '';
+	let newRating = 1;
 
 	function formatDate(dateString) {
 		const date = new Date(dateString);
@@ -20,37 +15,35 @@
 		).padStart(2, '0')}`;
 	}
 
-	async function updateMovie() {
-		const requestBody = {
-			title: movieDetails.title,
-			genre: movieDetails.genre,
-			releasedAt: new Date(movieDetails.releasedAt).toISOString(),
-			endAt: new Date(movieDetails.endAt).toISOString()
-		};
-
+	async function fetchReviews() {
 		try {
-			const response = await fetch(`http://localhost:8080/api/v1/movies/${movieId}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(requestBody)
-			});
-
+			const response = await fetch(`http://localhost:8080/api/v1/movies/${movieId}/reviews`);
 			if (response.ok) {
-				// Reset editing state after successful update
-				isEditing = {
-					title: false,
-					genre: false,
-					isShowing: false,
-					releasedAt: false,
-					endAt: false
-				};
-			} else {
-				console.error('Failed to update movie:', response.statusText);
+				reviews = await response.json();
 			}
-		} catch (error) {
-			console.error('Update error:', error.message);
+		} catch (err) {
+			console.error('Failed to fetch reviews:', err);
+		}
+	}
+
+	async function submitReview() {
+		if (newReview.trim() && newRating >= 1 && newRating <= 5) {
+			try {
+				const response = await fetch(`http://localhost:8080/api/v1/movies/${movieId}/reviews`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ review: newReview, rating: newRating })
+				});
+
+				if (response.ok) {
+					fetchReviews();
+					newReview = '';
+				}
+			} catch (err) {
+				console.error('Failed to submit review:', err);
+			}
 		}
 	}
 
@@ -64,93 +57,47 @@
 					if (movieDetails.endAt) {
 						movieDetails.endAt = formatDate(movieDetails.endAt);
 					}
-				} else {
-					console.error('Failed to fetch movie details:', response.statusText);
 				}
 			} catch (error) {
 				console.error('Fetch error:', error.message);
 			}
+			fetchReviews();
 		}
 	});
 </script>
 
 <!-- Movie Details -->
 {#if movieDetails}
-	<h1>
-		{#if isEditing.title}
-			<input bind:value={movieDetails.title} />
-		{:else}
-			{movieDetails.title}
-		{/if}
-		<button
-			on:click={() => {
-				isEditing.title ? updateMovie() : (isEditing.title = true);
-			}}>{isEditing.title ? '수정 완료' : '수정'}</button
-		>
-	</h1>
-	<p>
-		장르:
-		{#if isEditing.genre}
-			<input bind:value={movieDetails.genre} />
-		{:else}
-			{movieDetails.genre}
-		{/if}
-		<button
-			on:click={() => {
-				isEditing.genre ? updateMovie() : (isEditing.genre = true);
-			}}>{isEditing.genre ? '수정 완료' : '수정'}</button
-		>
-	</p>
-
-	<p>
-		상태:
-		{#if isEditing.isShowing}
-			<select bind:value={movieDetails.isShowing}>
-				<option value={true}>상영중</option>
-				<option value={false}>상영 종료</option>
-			</select>
-		{:else}
-			{movieDetails.isShowing ? '상영중' : '상영 종료'}
-		{/if}
-		<button
-			on:click={() => {
-				isEditing.isShowing ? updateMovie() : (isEditing.isShowing = true);
-			}}>{isEditing.isShowing ? '수정 완료' : '수정'}</button
-		>
-	</p>
-
-	<p>
-		개봉 날짜:
-		{#if isEditing.releasedAt}
-			<input type="date" bind:value={movieDetails.releasedAt} />
-		{:else}
-			{movieDetails.releasedAt}
-		{/if}
-		<button
-			on:click={() => {
-				isEditing.releasedAt ? updateMovie() : (isEditing.releasedAt = true);
-			}}>{isEditing.releasedAt ? '수정 완료' : '수정'}</button
-		>
-	</p>
-
+	<h1>{movieDetails.title}</h1>
+	<p>장르: {movieDetails.genre}</p>
+	<p>상태: {movieDetails.isShowing ? '상영중' : '상영 종료'}</p>
+	<p>개봉 날짜: {movieDetails.releasedAt}</p>
 	{#if !movieDetails.isShowing}
-		<p>
-			마지막 상영 날짜:
-			{#if isEditing.endAt}
-				<input type="date" bind:value={movieDetails.endAt} />
-			{:else}
-				{movieDetails.endAt}
-			{/if}
-			<button
-				on:click={() => {
-					isEditing.endAt ? updateMovie() : (isEditing.endAt = true);
-				}}>{isEditing.endAt ? '수정 완료' : '수정'}</button
-			>
-		</p>
+		<p>마지막 상영 날짜: {movieDetails.endAt}</p>
 	{/if}
 {:else}
 	<p>Loading...</p>
 {/if}
+
+<!-- Review Submission -->
+<h2>리뷰 등록</h2>
+<select bind:value={newRating}>
+	{#each [1, 2, 3, 4, 5] as rating}
+		<option value={rating}>{rating}점</option>
+	{/each}
+</select>
+<textarea bind:value={newReview} placeholder="리뷰를 입력하세요." />
+<button on:click={submitReview}>리뷰 등록</button>
+
+<!-- Review List -->
+<h2>리뷰 목록</h2>
+<ul>
+	{#each reviews as review}
+		<li>
+			<strong>{review.rating}점</strong> - {review.content}
+		</li>
+	{/each}
+</ul>
 
 <style>
 	/* 필요한 스타일을 여기에 추가하세요. */
