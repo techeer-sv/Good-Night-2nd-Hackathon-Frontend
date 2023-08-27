@@ -36,6 +36,21 @@
         }
     });
 </script>
+<style>
+    .review-grid {
+        display: grid;
+        gap: 16px;
+    }
+    .review-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .review-item {
+        padding: 16px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+</style>
 
 <ul>
     <li>
@@ -50,11 +65,15 @@
         <span>{movie.end_date}</span>
     </li>
 </ul>
-<ul>
+<div class="review-grid">
     {#each reviews as review}
-    <li>
-        <h3><span>{review.content}</span></h3>
-        <span>{review.rating}</span>
-    </li>
+        <div class="review-row">
+            <div class="review-item">
+                <span>{review.content}</span>
+            </div>
+            <div class="review-item">
+                <span>{review.rating}점</span>
+            </div>
+        </div>
     {/each}
-</ul>
+</div>
