@@ -3,9 +3,15 @@
     import {onMount} from "svelte";
     import axios from "axios";
     import type {Movie} from "../../types/Movie";
+    import MovieAdd from "../../MovieAdd.svelte";
 
     let movies: Movie[] = [];
 
+    let showMovieAdd = false;
+
+    function toggleMovieAdd() {
+        showMovieAdd = !showMovieAdd;
+    }
 
     onMount(async () => {
         try {
@@ -22,4 +28,8 @@
 <main>
     <h1>Seyeoncinema Movie List</h1>
     <MovieList {movies} />
+    <button on:click={toggleMovieAdd}>영화 추가</button>
+    {#if showMovieAdd}
+        <MovieAdd />
+    {/if}
 </main>
