@@ -56,7 +56,7 @@ export default function IndexPage() {
   }, [genre, showing]);
   return (
     <>
-      <div>indexPagee</div>
+      <div>indexPage</div>
       <button
         onClick={() => {
           navigate('/regist');
@@ -96,7 +96,7 @@ export default function IndexPage() {
             <div
               key={index}
               onClick={() => {
-                navigate('/detail');
+                navigate(`/detail/${item.id}`);
               }}
             >
               <p>{item.title}</p>

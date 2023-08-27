@@ -21,7 +21,7 @@ function App() {
         <Route path='/' element={<IndexPage />} />
         <Route path='/regist' element={<RegistPage />} />
         <Route path='/modify' element={<ModifyPage />} />
-        <Route path='/detail' element={<DetailPage />} />
+        <Route path='/detail/:id' element={<DetailPage />} />
       </Routes>
     </>
   );
