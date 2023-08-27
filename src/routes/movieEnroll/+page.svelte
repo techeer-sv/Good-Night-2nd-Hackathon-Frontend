@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DateInput } from 'date-picker-svelte';
 	import dayjs from 'dayjs';
-	import { enrollMovie } from '../../services/enroll';
+	import { enrollMovie } from '../../services/movie';
 
 	let genre = '';
 	let title = '';
