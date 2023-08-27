@@ -10,12 +10,13 @@ export const useAddReview = (
   return useMutation({
     mutationFn: () => ReviewService.addReview(comment, movieId, score),
     onSuccess: onSuccess,
-    // onError: () => alert("리뷰 등록에 실패했습니다."),
+    onError: () => alert("리뷰 등록에 실패했습니다."),
   });
 };
 
-export const useFindAllReviews = (movieId: string, scoreCap?: string) => {
+export const useFindAllReviews = (movieId: number, scoreCap?: string) => {
   return useQuery({
-    queryFn: () => ReviewService.getAllReviews(movieId, scoreCap),
+    queryKey: ["reviews", movieId, scoreCap],
+    queryFn: () => ReviewService.getAllReviews(movieId.toString(), scoreCap),
   });
 };

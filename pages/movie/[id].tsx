@@ -4,19 +4,23 @@ import { useRouter } from "next/router";
 import { useFindMovieById } from "../../src/api/hook/MovieHook";
 import { format } from "date-fns";
 import { Button } from "@nextui-org/react";
-import { useAddReview } from "../../src/api/hook/ReviewHook";
+import { useAddReview, useFindAllReviews } from "../../src/api/hook/ReviewHook";
 
 function MovieDetailPage() {
   const router = useRouter();
   const { id } = router.query;
 
   const { data: movie, isLoading } = useFindMovieById(Number(id));
+  const { data: reviews, refetch: refetchReviews } = useFindAllReviews(
+    Number(id)
+  );
 
   const [comment, setComment] = React.useState<string>("");
   const [score, setScore] = React.useState<number>(0);
 
   const { mutate: addReview } = useAddReview(comment, Number(id), score, () => {
     alert("리뷰가 등록되었습니다.");
+    refetchReviews();
   });
 
   const handleSubmit = () => {
@@ -30,7 +34,7 @@ function MovieDetailPage() {
     addReview();
   };
 
-  if (!movie || isLoading || !id) {
+  if (!movie || !reviews || isLoading || !id) {
     return <div>Loading...</div>;
   }
 
@@ -51,6 +55,17 @@ function MovieDetailPage() {
           <br />
 
           <text className="text-2xl font-bold text-main-1">리뷰</text>
+
+          {reviews &&
+            reviews?.data?.map((review: any) => (
+              <div>
+                <text className="text-xl font-bold text-main-1">
+                  {review.score}/5 점
+                </text>
+                <br />
+                <text className="text-md">{review.comment}</text>
+              </div>
+            ))}
 
           <form className="space-y-2" onSubmit={handleSubmit}>
             <div>

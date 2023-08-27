@@ -14,6 +14,8 @@ export class ReviewService {
   };
 
   public static getAllReviews = async (movieId: string, scoreCap?: string) => {
-    return api.get(`/reviews?movieId=${movieId}&scoreCap=${scoreCap}`);
+    return api.get(
+      `/reviews?movieId=${movieId}` + (scoreCap ? `&scoreCap=${scoreCap}` : "")
+    );
   };
 }
