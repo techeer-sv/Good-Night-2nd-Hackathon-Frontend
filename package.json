@@ -1,0 +1,84 @@
+{
+  "name": "goodnight",
+  "author": {
+    "email": "oht1312@gmail.com",
+    "name": "Dylan Oh"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "rimraf .next",
+    "build": "next build",
+    "preexport": "rimraf out",
+    "export": "next export",
+    "touch": "touch out/.nojekyll",
+    "posttouch": "touch out/_next/.nojekyll",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "eslint --fix ./src",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.2",
+    "@next/font": "13.1.1",
+    "@tailwindcss/ui": "^0.7.2",
+    "@toss/utils": "^1.3.1",
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.26",
+    "@types/react-dom": "18.0.10",
+    "autoprefixer": "^10.4.13",
+    "date-fns": "^2.29.3",
+    "framer-motion": "^7.2.1",
+    "husky": "^8.0.3",
+    "lodash": "^4.17.21",
+    "next": "13.1.1",
+    "next-compose-plugins": "^2.2.1",
+    "next-images": "^1.8.4",
+    "postcss": "^8.4.21",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.3",
+    "react-toastify": "^9.1.1",
+    "rimraf": "^4.4.1",
+    "sb": "^6.5.16",
+    "tailwindcss": "^3.2.4",
+    "typescript": "4.9.4",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@svgr/webpack": "^6.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "babel-loader": "^8.3.0",
+    "eslint": "8.31.0",
+    "eslint-config-next": "13.1.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "^2.6.2",
+    "prettier-plugin-tailwindcss": "^0.1.10"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "resolutions": {
+    "webpack": "^5"
+  },
+  "volta": {
+    "node": "16.14.2",
+    "npm": "8.5.5",
+    "yarn": "1.22.17"
+  }
+}
