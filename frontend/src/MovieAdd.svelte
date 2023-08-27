@@ -37,13 +37,17 @@
 <h1>영화 등록</h1>
 
 <input type="text" bind:value={movie.title}/>
+<br/>
 <select bind:value={movie.genre}>
     <option value="">장르 선택</option>
     {#each genres as genre}
         <option value={genre}>{genre}</option>
     {/each}
 </select>
+<br/>
 <input type="date" bind:value={movie.release_date}/>
+<br/>
 <input type="date" bind:value={movie.end_date}/>
-
+<br/>
+<br/>
 <button on:click={addMovie}>영화 등록</button>
