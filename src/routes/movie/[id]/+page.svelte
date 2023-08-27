@@ -4,6 +4,7 @@
 	import { getMovie } from '../../../services/movie';
 	import type { ReviewData, ReviewForm } from '../../../types/review';
 	import { getReviews, submitReview } from '../../../services/review';
+	import dayjs from 'dayjs';
 
 	export let data: { id: number };
 
@@ -49,6 +50,16 @@
 
 <div>
 	<h1>{movie.title}</h1>
+	<h3>장르: {movie.genre}</h3>
+	<h3>
+		{#if movie.isShowing}
+			상영 중
+		{:else}
+			상영 종료
+		{/if}
+	</h3>
+	<p>개봉일: {dayjs(movie.releasedAt).format('YYYY.MM.DD')}</p>
+	<p>상영 종료일: {dayjs(movie.endAt).format('YYYY.MM.DD')}</p>
 	<form on:submit={onSubmitReview}>
 		<select bind:value={score}>
 			{#each scoreOptions as scoreOption}
