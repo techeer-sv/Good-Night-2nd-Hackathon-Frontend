@@ -2,6 +2,7 @@
 	import { DateInput } from 'date-picker-svelte';
 	import dayjs from 'dayjs';
 	import { enrollMovie } from '../../services/movie';
+	import { goto } from '$app/navigation';
 
 	let genre = '';
 	let title = '';
@@ -13,7 +14,10 @@
 	const handleEnrollMovie = async () => {
 		const form = { genre, title, releasedAt: releasedAt.toISOString(), endAt: endAt.toISOString() };
 		const response = await enrollMovie(form);
-		console.log(response);
+		if (response) {
+			alert('영화가 등록되었습니다.');
+			goto('/movie');
+		}
 	};
 </script>
 

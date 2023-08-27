@@ -5,7 +5,7 @@ export type MovieForm = {
 	endAt: string;
 };
 
-export type MoiveData = {
+export type MovieData = {
 	createdAt: string;
 	endAt: string;
 	genre: string;

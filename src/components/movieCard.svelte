@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { deleteMovie } from '../services/movie';
-	import type { MoiveData } from '../types/movie';
+	import type { MovieData } from '../types/movie';
 
-	export let movie: MoiveData;
+	export let movie: MovieData;
 	export let onDelete: (id: number) => Promise<void>;
 </script>
 

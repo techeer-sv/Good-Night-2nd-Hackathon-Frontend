@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import type { MoiveData } from '../../types/movie';
+	import type { MovieData } from '../../types/movie';
 	import { deleteMovie, getMovies } from '../../services/movie';
 	import MovieCard from '../../components/movieCard.svelte';
 
 	const goToEnrollPage = () => {
 		goto('/movieEnroll');
 	};
-	let movieList: MoiveData[] = [];
+	let movieList: MovieData[] = [];
 
 	const onDelete = async (id: number) => {
 		await deleteMovie(id);
