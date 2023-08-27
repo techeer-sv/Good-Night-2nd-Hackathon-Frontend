@@ -4,8 +4,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { koKR } from "@mui/x-date-pickers/locales";
-import dayjs from "dayjs";
-import { useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormControl,
@@ -22,11 +22,17 @@ declare module "@mui/material/styles" {
   }
 }
 
-export default function Submit() {
+type SubmitProps = {
+  params: { id: number };
+  searchParams: {};
+};
+
+export default function Submit({ params, searchParams }: SubmitProps) {
   const [title, setTitle] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
-  const [releaseDate, setReleaseDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [releaseDate, setReleaseDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
+  const [isShowing, setIsShowing] = useState<boolean>(false);
 
   const theme = createTheme({
     palette: {
@@ -37,17 +43,37 @@ export default function Submit() {
     koKR,
   });
 
-  async function submitMovie() {
-    const url = "http://localhost:8000/movies";
+  async function getMovie() {
+    const url = `http://localhost:8000/movies/${params.id}`;
+    try {
+      const dataRes = await fetch(url);
+      if (!dataRes.ok) {
+        throw new Error(`HTTP error! Status: ${dataRes.status}`);
+      }
+      const resJson = await dataRes.json();
+      setTitle(resJson.title);
+      setGenre(resJson.genre);
+      setReleaseDate(dayjs(resJson.releaseDate));
+      setEndDate(dayjs(resJson.endDate));
+      setIsShowing(resJson.isShowing);
+    } catch (error) {
+      console.error(error);
+      alert("영화 조회에 실패했습니다.");
+    }
+  }
+
+  async function modifyMovie() {
+    const url = `http://localhost:8000/movies/${params.id}`;
     const data = {
       title,
       genre,
       releaseDate: dayjs(releaseDate).format("YYYY-MM-DD"),
       endDate: dayjs(endDate).format("YYYY-MM-DD"),
+      isShowing,
     };
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -59,9 +85,13 @@ export default function Submit() {
       console.log(response);
     } catch (error) {
       console.error(error);
-      alert("영화 등록에 실패했습니다.");
+      alert("영화 수정에 실패했습니다.");
     }
   }
+
+  useEffect(() => {
+    getMovie();
+  }, []);
 
   return (
     <div className="pt-4 pl-4">
@@ -111,12 +141,27 @@ export default function Submit() {
             format="YYYY-MM-DD"
           />
         </LocalizationProvider>
+        <FormControl className="w-[200px] mr-4 mt-2">
+          <InputLabel id="demo-simple-select-label">상영여부</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={isShowing}
+            label="상영여부"
+            onChange={(e) =>
+              setIsShowing(e.target.value === "true" ? true : false)
+            }
+          >
+            <MenuItem value={"true"}>상영중</MenuItem>
+            <MenuItem value={"false"}>상영중지</MenuItem>
+          </Select>
+        </FormControl>
         <Button
           className="h-[56px] mt-2"
           variant="outlined"
-          onClick={() => submitMovie()}
+          onClick={() => modifyMovie()}
         >
-          등록
+          수정
         </Button>
       </ThemeProvider>
     </div>
