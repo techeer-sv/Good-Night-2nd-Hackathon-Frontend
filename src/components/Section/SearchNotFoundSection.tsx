@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-function SearchSection() {
+function SearchNotFoundSection() {
   const router = useRouter();
 
   return (
@@ -9,9 +9,9 @@ function SearchSection() {
       <div className="flex flex-col items-center space-y-10 self-center">
         <text
           key="introduction-name"
-          className="text-7xl font-bold text-main-1"
+          className="text-5xl font-bold text-main-1"
         >
-          찾으시는 영화가 있을까요?
+          찾으시는 영화가 없나요?
         </text>
         <nav
           key="introduction-short"
@@ -25,4 +25,4 @@ function SearchSection() {
   );
 }
 
-export default SearchSection;
+export default SearchNotFoundSection;

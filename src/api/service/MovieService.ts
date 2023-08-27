@@ -14,4 +14,8 @@ export class MovieService {
       endAt,
     });
   };
+
+  public static getAllMovies = async () => {
+    return api.get("/movies");
+  };
 }

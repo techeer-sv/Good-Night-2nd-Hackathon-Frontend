@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { MovieService } from "../service/MovieService";
 import { MovieType } from "../../constants/enum";
 
@@ -19,5 +19,11 @@ export const useAddMovie = (
       ),
     onSuccess: onSuccess,
     onError: () => alert("영화 등록에 실패했습니다."),
+  });
+};
+
+export const useFindAllMovies = () => {
+  return useQuery({
+    queryFn: () => MovieService.getAllMovies(),
   });
 };
