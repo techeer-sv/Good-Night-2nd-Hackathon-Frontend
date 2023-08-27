@@ -10,6 +10,23 @@
     function toggleMovieUpdate(movieId) {
         showMovieUpdate[movieId] = !showMovieUpdate[movieId];
     }
+
+    async function deleteMovie(movieId) {
+        try {
+            const response = await fetch(`http://localhost:8080/api/v1/movies/${movieId}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                movies = movies.filter(movie => movie.id !== movieId);
+            } else {
+                console.error('영화 삭제 실패');
+            }
+        } catch (error) {
+            console.error('영화 삭제 실패:', error);
+        }
+    }
+
 </script>
 
 <style>
@@ -38,6 +55,7 @@
                 {#if showMovieUpdate[movie.id]}
                     <MovieUpdate movie={movie}/>
                 {/if}
+                <button on:click={() => deleteMovie(movie.id)}>삭제</button>
             </div>
         </div>
     {/each}
