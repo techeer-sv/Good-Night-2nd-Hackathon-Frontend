@@ -27,8 +27,10 @@ type Review = {
 export default function Reviews({ movieId }: ReviewProps) {
   const [minRating, setMinRating] = useState<number>(1);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [rating, setRating] = useState<number>(1);
+  const [content, setContent] = useState<string>("");
 
-  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMinRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMinRating(Number(e.target.value));
   };
 
@@ -52,6 +54,34 @@ export default function Reviews({ movieId }: ReviewProps) {
     }
   }
 
+  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRating(Number(e.target.value));
+  };
+
+  const handleSubmit = async () => {
+    const url = `http://localhost:8000/reviews/${movieId}`;
+    const data = {
+      rating,
+      content,
+    };
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      getReviews();
+    } catch (error) {
+      console.error(error);
+      alert("리뷰 작성에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
     getReviews();
   }, [minRating]);
@@ -67,7 +97,7 @@ export default function Reviews({ movieId }: ReviewProps) {
         max="5"
         step="0.5"
         value={minRating}
-        onChange={handleRatingChange}
+        onChange={handleMinRatingChange}
       />
       {reviews.map((review) => (
         <div className="flex gap-2 mt-2" key={review.id}>
@@ -75,6 +105,30 @@ export default function Reviews({ movieId }: ReviewProps) {
           <div>내용 : {review.content}</div>
         </div>
       ))}
+      <div className="flex flex-col mt-2">
+        <input
+          className="w-[200px] mt-2"
+          type="range"
+          id="range"
+          name="rating"
+          min="1"
+          max="5"
+          step="0.5"
+          value={rating}
+          onChange={handleRatingChange}
+        />
+        {rating}
+        <textarea
+          className="mx-2 w-[200px] h-[100px] resize-none mt-2"
+          name="content"
+          placeholder="리뷰내용"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <button className="w-[200px] mt-2" type="submit" onClick={handleSubmit}>
+          리뷰 작성
+        </button>
+      </div>
     </div>
   );
 }

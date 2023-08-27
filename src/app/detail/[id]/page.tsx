@@ -4,7 +4,6 @@ type DetailProps = {
 };
 
 import Reviews from "./Reviews";
-import ReviewSubmit from "./ReviewSubmit";
 
 export default async function Detail({ params }: DetailProps) {
   let error = false;
@@ -31,7 +30,6 @@ export default async function Detail({ params }: DetailProps) {
           <div>상영종료일 : {movie.endDate}</div>
           <div>상영여부 : {movie.isShowing ? "상영중" : "상영중지"}</div>
           <Reviews movieId={params.id} />
-          <ReviewSubmit movieId={params.id} />
         </div>
       )}
     </>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -33,6 +34,8 @@ export default function Submit({ params }: SubmitProps) {
   const [releaseDate, setReleaseDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [isShowing, setIsShowing] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const theme = createTheme({
     palette: {
@@ -83,6 +86,7 @@ export default function Submit({ params }: SubmitProps) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       console.log(response);
+      router.push(`/detail/${params.id}`);
     } catch (error) {
       console.error(error);
       alert("영화 수정에 실패했습니다.");

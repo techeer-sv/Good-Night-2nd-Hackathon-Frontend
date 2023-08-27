@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -27,6 +28,8 @@ export default function Submit() {
   const [genre, setGenre] = useState<string>("");
   const [releaseDate, setReleaseDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+
+  const router = useRouter();
 
   const theme = createTheme({
     palette: {
@@ -57,6 +60,7 @@ export default function Submit() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       console.log(response);
+      router.push("/");
     } catch (error) {
       console.error(error);
       alert("영화 등록에 실패했습니다.");

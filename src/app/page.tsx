@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type Movie = {
@@ -47,6 +48,23 @@ export default function Home() {
     }
   }
 
+  async function deleteMovie(id: number) {
+    const url = `http://localhost:8000/movies/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      console.log(response);
+      getMovies();
+    } catch (error) {
+      console.error(error);
+      alert("영화 삭제에 실패했습니다.");
+    }
+  }
+
   const handleGenreSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGenre(e.target.value);
   };
@@ -74,14 +92,21 @@ export default function Home() {
           <option value="true">상영중</option>
           <option value="false">비상영</option>
         </select>
+        <Link href="/submit">추가하기</Link>
       </div>
       {data.map((movie) => (
         <div className="flex ml-2 gap-2" key={movie.id}>
-          <div>제목 : {movie.title}</div>
-          <div>장르 : {movie.genre}</div>
-          <div>개봉일 : {movie.releaseDate}</div>
-          <div>상영종료일 : {movie.endDate}</div>
-          <div>상영여부 : {movie.isShowing ? "상영중" : "상영중지"}</div>
+          <Link className="flex ml-2 gap-2" href={`/detail/${movie.id}`}>
+            <div>제목 : {movie.title}</div>
+            <div>장르 : {movie.genre}</div>
+            <div>개봉일 : {movie.releaseDate}</div>
+            <div>상영종료일 : {movie.endDate}</div>
+            <div>상영여부 : {movie.isShowing ? "상영중" : "상영중지"}</div>
+          </Link>
+          <Link href={`/modify/${movie.id}`}>수정</Link>
+          <button type="button" onClick={() => deleteMovie(movie.id)}>
+            삭제
+          </button>
         </div>
       ))}
     </div>
