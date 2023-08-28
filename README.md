@@ -1,5 +1,45 @@
 # 영화 리뷰 앱
 
+https://github.com/techeer-sv/Good-Night-2nd-Hackathon-Frontend
+
+## 기술스택
+
+<p align="center">
+<img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=next.js&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white">
+</p>
+
+- Next.js 버전 13.4
+- App router
+- SSR 일부 적용
+
+
+## 사용한 API
+
+https://github.com/Mayreeel/Good-Night-2nd-Hackathon-Back
+
+## .env.local
+
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+API_BASE_URL=http://localhost:8000
+NEXT_PUBLIC_ADMIN_PASSWORD="Any password you want"
+```
+
+## 실행
+```
+npm run dev
+```
+
+## 페이지
+
+```
+- / : 영화 목록
+- /submit : 영화 등록
+- /detail/[id] : 영화 상세 정보, 리뷰
+- /modify/[id] : 영화 수정
+- /admin : 관리자 로그인
+```
+
 ## 안내사항
 - 본 레포지토리를 fork하여 과제를 수행하고, 완료시 PR을 보냅니다.
 - 과제의 소스코드는 본인의 GitHub 레포지토리에 **Public**으로 올려주세요.
