@@ -4,6 +4,7 @@
 	import { editMovie, getMovie } from '../../../services/movie';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	export let data: { id: number };
 
@@ -33,6 +34,7 @@
 </script>
 
 <main>
+	<h1>{data.id}</h1>
 	<section>
 		<h2>제목 입력</h2>
 		<input bind:value={title} />

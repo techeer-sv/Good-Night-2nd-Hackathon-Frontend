@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	import { goto } from '$app/navigation';
+
+	const startApp = () => {
+		goto('/movie');
+	};
+</script>
+
+<main>
+	<h1>영화 리뷰 앱</h1>
+	<button on:click={startApp}>시작하기!</button>
+</main>

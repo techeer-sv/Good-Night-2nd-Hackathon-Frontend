@@ -5,7 +5,12 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+	preprocess: vitePreprocess({
+		scss: {
+			// SCSS 관련 설정을 추가합니다.
+			includePaths: ['src/styles'] // SCSS 파일의 추가 경로 설정
+		}
+	}),
 
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
