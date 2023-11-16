@@ -1,5 +1,10 @@
 # 영화 리뷰 앱
+---
+## 구현 화면
+<img width="800" alt="스크린샷 2023-08-28 오전 2 00 34" src="https://github.com/barabobBOB/Good-Night-2nd-Hackathon-Frontend/assets/83595905/72e4370e-22ca-46f1-aac8-fbeafb2ccc23">
 
+### Svelte: 3.54.0
+---
 ## 안내사항
 - 본 레포지토리를 fork하여 과제를 수행하고, 완료시 PR을 보냅니다.
 - 과제의 소스코드는 본인의 GitHub 레포지토리에 **Public**으로 올려주세요.
